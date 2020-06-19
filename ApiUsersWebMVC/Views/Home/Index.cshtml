@@ -1,0 +1,280 @@
+﻿@{ var filtro = ViewData["filtro"] as string;
+    var Respuesta = "";
+    switch (filtro)
+    {
+        case "todos":
+            Respuesta = "Todos los Usuarios";
+            break;
+        case "userNoDispo":
+            Respuesta = "Usuarios no Disponibles";
+            break;
+        case "userDispo":
+            Respuesta = "Usuarios Disponibles";
+            break;
+        default:
+            Respuesta = "";
+            break;
+    }
+}
+@using PagedList.Mvc
+@model  PagedList.IPagedList<ApiUsersWebMVC.Models.UsuariosActivos>
+
+
+<style>
+    .ul.pagination {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+    }
+
+    ul.pagination li {
+        display: inline;
+    }
+
+        ul.pagination li a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
+            text-decoration: none;
+            transition: background-color .3s;
+        }
+
+            ul.pagination li a.active {
+                background-color: #4CAF50;
+                color: white;
+            }
+
+            ul.pagination li a:hover:not(.active) {
+                background-color: #ddd;
+            }
+
+    footer {
+        position: relative;
+        /* Altura total del footer en px con valor negativo */
+        margin-top: -50px;
+        /* Altura del footer en px. Se han restado los 5px del margen
+               superior mas los 5px del margen inferior
+            */
+        height: 40px;
+        padding: 5px 0px;
+        clear: both;
+    }
+</style>
+<div class="form-group" style="margin-left: 40px">
+    <div>
+        <label style="margin-bottom: 5px">Filtrar por: @Respuesta</label>
+
+        <select class="form-control" style="margin-bottom: 10px" name="filtro" id="filtro">
+            <option>----------</option>
+            <option value="todos">Todos</option>
+            <option value="userDispo">Usuarios Disponibles</option>
+            <option value="userNoDispo">UsuariosNoDisponibles</option>
+        </select>
+
+        <input style="margin-bottom: 10px" type="button" value="Filtrar" class="btn btn-success" onclick="filtrar()" />
+    </div>
+</div>
+
+<div style="text-align:center;display:none;margin-bottom:30px;" id="loaderDiv">
+    <h4>Realizando Videollamada...</h4>
+    <img src="~/Images/ajax-loader.gif" />
+</div>
+
+@for (int i = 0; i < Model.Count; i++)
+{
+    <div class="col-sm-4">
+        <div class="panel" style="margin-bottom: 20px">
+            <div class="panel-body p-t-10">
+                <div class="media-main">
+
+                    @if (@Model[i].EstadoActual == "On Queue" && (@Model[i].Estado == "Idle" || @Model[i].Estado == "Interacting"))
+                    {
+                        <a class="" id="btnLlamada" href="#">
+                            <input type="image" src=@Model[i].Imagen name="image" alt="Llamar"
+                                   class="imgRedondaDisponible" onclick="LlamarUsuario('@Model[i].Nombre')" /><br />
+                        </a>
+
+                        <div class="info">
+                            <h4>@Model[i].Nombre</h4>
+                            <p class="text-muted">@Model[i].Correo</p>
+                            <p class="text-muted">@Model[i].Especialidad</p>
+
+
+                            <div id="estadoUsuario">
+                                <p class="text-muted">@Model[i].Estado</p>
+                                <p class="text-muted">@Model[i].EstadoActual</p>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <a class="" id="btnLlamada" href="#">
+                            <input type="image" src=@Model[i].Imagen name="image" alt="Llamar"
+                                   class="imgRedondaNoDisponible" onclick="AlertaNoLLamable()" /><br />
+                        </a>
+
+                        <div class="info">
+                            <h4>@Model[i].Nombre</h4>
+                            <p class="text-muted">@Model[i].Correo</p>
+                            <p class="text-muted">@Model[i].Especialidad</p>
+
+
+                            <div id="estadoUsuario">
+                                <p class="text-muted">@Model[i].Estado</p>
+                                <p class="text-muted">@Model[i].EstadoActual</p>
+                            </div>
+                        </div>
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<footer>
+    <div id="container" style="margin-left: 20px">
+        <p></p>
+        <p></p>
+        <div class="pagination" style="margin-left: 400px">
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+            of @Model.PageCount   @Html.PagedListPager(Model, page => Url.Action("Index", new { page, @filtrar = filtro }))
+        </div>
+    </div>
+</footer>
+
+
+<script></script>
+
+@* POPUP FORMULARIO CLIENTE *@
+<div class="container">
+
+    @*<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#barra">Abrir</a>*@
+    <div class="modal fade" id="barra">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h3 class="modal-title">Por favor ingrese sus datos</h3>
+                </div>
+                <div class="modal-body">
+
+                    <div id="formulario">
+                        <div class="form-group">
+                            <input class="form-control" type="text" id="txtNombre" placeholder="Nombre" />
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" id="txtApellido" placeholder="Apellido" />
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" id="txtTelefono" placeholder="Teléfono" />
+                        </div>
+                        <div class="form-group">
+                            <input class="form-control" type="text" id="txtCorreo" placeholder="Correo" />
+                        </div>
+                    </div>
+
+                    <div style="text-align:center;display:none" id="loaderDiv">
+                        <img src="~/Images/ajax-loader.gif" />
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancelar</a>
+                    <input type="reset" value="Llamar" class="btn btn-success" onclick="MostrarBarra();" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts{
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Content/Site.css" rel="stylesheet">
+    <script type="text/javascript">
+
+        $(function () {
+            $("a[data-toggle='tooltip']").tooltip();
+        });
+
+
+        $("#btnLlamada").on('click', function () {
+           //AlertaLLamable();
+            LlamarUsuario();
+        });
+         function filtrar() {
+
+             var filtra = $('#filtro').val();
+             window.location.href = '/Home/Index?filtrar=' + filtra
+
+    }
+        function LlamarUsuario(nom) {
+            //AlertaLLamable();
+            $("#loaderDiv").show();
+            //ap = document.getElementById('txtApellido').value;
+            ap = "";
+            //tel = document.getElementById('txtTelefono').value;
+            tel = "";
+            //cor = document.getElementById('txtCorreo').value;
+            cor = "";
+            $.ajax({
+
+
+                type: 'GET',
+                url: '@Url.Action("InicarVideoLlamada", "Home")',
+                data: {
+                    'nombre': nom,
+                    'apellido': ap,
+                    'telefono': tel,
+                    'email': cor
+                },
+                dataType: "json",
+                success: function (response) {
+
+                    window.location.href = response;
+                    $("#loaderDiv").hide();
+                },
+            });
+        }
+        function refrescar(tiempo) {
+            //Cuando pase el tiempo elegido la página se refrescará
+            setTimeout("location.reload(true);", tiempo);
+        }
+
+        function MostrarBarra() {
+
+            $("#loaderDiv").show();
+
+            var form = $("formulario").serialize();
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/Index",
+                data: form,
+                success: function () {
+                    $("#loaderDiv").hide();
+                    $("#barra").modal("hide");
+
+                }
+
+            });
+            setTimeout(refrescar, 20000);
+            AlertaLLamable();
+            LlamarUsuario();
+        }
+
+        function AlertaNoLLamable() {
+            alert("El Agente no se encuentra disponible");
+        }
+        function AlertaLLamable() {
+            alert("Su llamada será atendida en unos instantes, por favor espere");
+        }
+
+    </script>
+}
+
