@@ -87,3 +87,12 @@ textarea {
     border: 5px solid red;
     margin-left: 116px;
 }
+
+#outer {
+    width: 100%;
+    text-align: right;
+}
+
+.inner {
+    display: inline-block;
+}

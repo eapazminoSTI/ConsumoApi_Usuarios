@@ -60,8 +60,8 @@
         clear: both;
     }
 </style>
-<div class="form-group" style="margin-left: 40px">
-    <div>
+<div id="outer" class="form-group" style="margin-left: 40px">
+    <div class="">
         <label style="margin-bottom: 5px">Filtrar por: @Respuesta</label>
 
         <select class="form-control" style="margin-bottom: 10px" name="filtro" id="filtro">
@@ -71,9 +71,21 @@
             <option value="userNoDispo">UsuariosNoDisponibles</option>
         </select>
 
-        <input style="margin-bottom: 10px" type="button" value="Filtrar" class="btn btn-success" onclick="filtrar()" />
+        <input style="margin-bottom: 10px" type="button" value="Filtrar" class="form-row" onclick="filtrar()" />
+
+        <div class="">
+            <label style="margin-bottom: 5px">Busqueda por Nombre:</label>
+            
+            <span class="">
+                <input type="text" id="txtNombreBusqueda" name="txtNombreBusqueda" class="form-row" placeholder="Ingrese el nombre">
+                <button type="button" class="btn btn-effect-ripple btn-primary" onclick="busqueda()"><i class="fa fa-search"></i></button>
+            </span>
+        </div>
     </div>
+    
 </div>
+
+
 
 <div style="text-align:center;display:none;margin-bottom:30px;" id="loaderDiv">
     <h4>Realizando Videollamada...</h4>
@@ -207,12 +219,21 @@
            //AlertaLLamable();
             LlamarUsuario();
         });
-         function filtrar() {
+
+        function filtrar() {
 
              var filtra = $('#filtro').val();
              window.location.href = '/Home/Index?filtrar=' + filtra
 
-    }
+        }
+
+        function busqueda() {
+
+            var nombre = $('#txtNombreBusqueda').val();
+            window.location.href = '/Home/Index?nombre=' + nombre
+
+        }
+
         function LlamarUsuario(nom) {
             //AlertaLLamable();
             $("#loaderDiv").show();
