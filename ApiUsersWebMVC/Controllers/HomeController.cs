@@ -21,7 +21,7 @@ namespace ApiUsersWebMVC.Controllers
 
         }
         
-        public ActionResult Index(int? page, string filtrar)
+        public ActionResult Index(int? page, string filtrar, string nombre)
         {
             
             if (filtrar==null||filtrar== "----------")
@@ -30,6 +30,12 @@ namespace ApiUsersWebMVC.Controllers
                 ViewData["filtro"] = filtrar;
                 //filtrar = "userDispo";
             }
+
+            if(nombre == null )
+            {
+                nombre = "";
+            }
+
             ViewData["filtro"] = filtrar;
             int pagesize = 6;
             int pageindex = 1;
@@ -37,7 +43,7 @@ namespace ApiUsersWebMVC.Controllers
             IPagedList<UsuariosActivos> user = null;
             ApiUser apiUsers = new ApiUser();
             ListaUsers lista = new ListaUsers();
-            lista.usuariosActivos = apiUsers.filtrarUsuario(filtrar);
+            lista.usuariosActivos = apiUsers.filtrarUsuario(filtrar, nombre);
             user = lista.usuariosActivos.ToPagedList(pageindex,pagesize);
             return View(user);
         }
