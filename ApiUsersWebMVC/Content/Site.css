@@ -88,11 +88,13 @@ textarea {
     margin-left: 116px;
 }
 
-#outer {
-    width: 100%;
-    text-align: right;
+
+.filtro {
+    text-align: left;
+    margin-left: 30px;
 }
 
-.inner {
-    display: inline-block;
+.busqueda {
+    text-align: right;
+    margin-right: 30px;
 }

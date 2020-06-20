@@ -60,29 +60,46 @@
         clear: both;
     }
 </style>
-<div id="outer" class="form-group" style="margin-left: 40px">
-    <div class="">
-        <label style="margin-bottom: 5px">Filtrar por: @Respuesta</label>
 
-        <select class="form-control" style="margin-bottom: 10px" name="filtro" id="filtro">
-            <option>----------</option>
-            <option value="todos">Todos</option>
-            <option value="userDispo">Usuarios Disponibles</option>
-            <option value="userNoDispo">UsuariosNoDisponibles</option>
-        </select>
 
-        <input style="margin-bottom: 10px" type="button" value="Filtrar" class="form-row" onclick="filtrar()" />
+<div class="form-group" style="margin-left: 40px">
+    <table>
+        <tr>
+            <td>
+                <div class="filtro">
+                    <label style="margin-bottom: 5px">Filtrar por: @Respuesta</label>
 
-        <div class="">
-            <label style="margin-bottom: 5px">Busqueda por Nombre:</label>
-            
-            <span class="">
-                <input type="text" id="txtNombreBusqueda" name="txtNombreBusqueda" class="form-row" placeholder="Ingrese el nombre">
-                <button type="button" class="btn btn-effect-ripple btn-primary" onclick="busqueda()"><i class="fa fa-search"></i></button>
-            </span>
-        </div>
-    </div>
-    
+                    <select class="form-control" style="margin-bottom: 10px; text-align:center;" name="filtro" id="filtro">
+                        <option>----------</option>
+                        <option value="todos">Todos</option>
+                        <option value="userDispo">Usuarios Disponibles</option>
+                        <option value="userNoDispo">UsuariosNoDisponibles</option>
+                    </select>
+
+                    <input style="margin-bottom: 10px" type="button" value="Filtrar" class=" btn btn-success" onclick="filtrar()" />
+
+                </div>
+            </td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+            <td>
+                <div class="busqueda">
+                    <label style="margin-bottom: 5px">Busqueda por Nombre:</label>
+
+                    <span class="">
+                        <input type="text" id="txtNombreBusqueda" name="txtNombreBusqueda" class="form-row" placeholder="Ingrese el nombre">
+                        <button type="button" class="btn btn-effect-ripple btn-primary" onclick="busqueda()"><i class="fa fa-search"></i></button>
+                    </span>
+                </div>
+            </td>
+        </tr>
+
+    </table>
+
 </div>
 
 
