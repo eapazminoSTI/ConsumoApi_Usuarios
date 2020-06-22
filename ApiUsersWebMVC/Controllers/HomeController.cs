@@ -28,7 +28,6 @@ namespace ApiUsersWebMVC.Controllers
             {
                 filtrar = "todos";
                 ViewData["filtro"] = filtrar;
-                //filtrar = "userDispo";
             }
 
             if(nombre == null )
