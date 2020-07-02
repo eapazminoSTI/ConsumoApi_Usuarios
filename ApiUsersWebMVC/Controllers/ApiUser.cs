@@ -8,13 +8,12 @@ using PureCloudPlatform.Client.V2.Client;
 using PureCloudPlatform.Client.V2.Extensions;
 using PureCloudPlatform.Client.V2.Model;
 using ApiUsersWebMVC.Models;
-
+using PurecloudClassLibrary;
 
 namespace ApiUsersWebMVC.Controllers
 {
     public class ApiUser
     {
-
         public List<UsuariosActivos> filtrarUsuario(string filtro, string nombre)
         {
             var accessTokenInfo = Configuration.Default.ApiClient.PostToken(PureCloudConstants.CLIENT_ID,
@@ -32,6 +31,12 @@ namespace ApiUsersWebMVC.Controllers
             List<UsuariosActivos> listaUsuariosBusqueda = new List<UsuariosActivos>();
             List<UsuariosActivos> listaTotal = new List<UsuariosActivos>();
 
+            //v2.users.86e675ca-0f18-444f-bf37-2a78511133cf.presence
+
+            //SubscriberResponse suscriptions = new SubscriberResponse();
+            SubscriptionOverviewUsage subscriptionOverviewUsage = new SubscriptionOverviewUsage();
+
+            
 
             List<String> expand = new List<String>();
             expand.Add("presence");

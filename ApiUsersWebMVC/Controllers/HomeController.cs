@@ -46,6 +46,11 @@ namespace ApiUsersWebMVC.Controllers
             user = lista.usuariosActivos.ToPagedList(pageindex,pagesize);
             return View(user);
         }
+
+        public ActionResult Inicio()
+        {
+            return View();
+        }
         
 
         public JsonResult InicarVideoLlamada(string nombre, string apellido, string telefono, string email)
