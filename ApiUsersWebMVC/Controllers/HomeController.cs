@@ -14,6 +14,11 @@ namespace ApiUsersWebMVC.Controllers
 {
     public class HomeController : Controller
     {
+        static string nom;
+        static string ape;
+        static string cor;
+        static string tel;
+
         class Respuesta
         {
             public string status { get; set; }
@@ -47,17 +52,27 @@ namespace ApiUsersWebMVC.Controllers
             return View(user);
         }
 
-        public ActionResult Inicio()
+        public ActionResult Usuarios()
         {
             return View();
         }
         
-
-        public JsonResult InicarVideoLlamada(string nombre, string apellido, string telefono, string email)
+        public void Registrar(string nombre, string apellido, string telefono, string email)
+        {
+            nom = "";
+            ape = "";
+            tel = "";
+            cor = "";
+            nom = nombre;
+            ape = apellido;
+            tel = telefono;
+            cor = email;
+        }
+        public JsonResult InicarVideoLlamada()
         {
 
             string responseFromServer;
-            WebRequest request2 = WebRequest.Create("https://client3.whatchmenow.com/api/session_request.php?name=" + nombre + "&duration=60&key=ad967e8e-73f4-11ea-9ba4-d3a8a6bb4ea4&type=user&lastname=" + apellido + "&phone=" + telefono + "&email=" + email + "&session_type=video");
+            WebRequest request2 = WebRequest.Create("https://client3.whatchmenow.com/api/session_request.php?name=" + nom + "&duration=60&key=ad967e8e-73f4-11ea-9ba4-d3a8a6bb4ea4&type=user&lastname=" + ape + "&phone=" + tel + "&email=" + cor + "&session_type=video");
             // If required by the server, set the credentials.  
             request2.Credentials = CredentialCache.DefaultCredentials;
             // Get the response.  

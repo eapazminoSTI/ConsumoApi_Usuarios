@@ -21,77 +21,8 @@
 
 
 <div class="container">
-    <div class="row">
-        <div class="main col-12">
-            <div class="progress">
-                <div id="p" class="progress-bar  bg-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" ariavaluemax="100"></div>
-            </div>
-            <div class="block1">
-                <div id="b1" class="text-center activecirculo">
-                    <i class="icon1"></i>
-                </div>
-            </div>
-            <div id="block2A" class="block2">
-                <div id="b2" class="text-center circulo">
-                    <i class="icon2"></i>
-                </div>
-            </div>
-            <div id="block3A" class="block3">
-                <div id="b3" class="text-center circulo">
-                    <i class="icon3"></i>
-                </div>
-            </div>
-            <div class="text-center next">
-                <button onclick="enviar()" id="next1" class="next1 btn btn-primary">Siguiente</button>
-                <button onclick="enviar2()" id="next2" class="next2 btn btn-primary">Siguiente</button>
-            </div>
-        </div>
-    </div>
-    <div id="Paso1">
-        <div class="form-group">
-            <label>Nombre</label>
-            <div class="form-row">
-                <div class="form-group">
-                    <input type="text" id="txtNombre" placeholder="Entidad 1" />
-                </div>
-            </div>
-            <label>Apellido</label>
-            <div class="form-row">
-                <div class="form-group">
-                    <input type="text" id="txtApellido" placeholder="Entidad 1" />
-                </div>
-            </div>
-            <label>Teléfono</label>
-            <div class="form-row">
-                <div class="form-group">
-                    <input type="text" id="txtTelefono" placeholder="Entidad 1" />
-                </div>
-            </div>
-            <label>Email</label>
-            <div class="form-row">
-                <div class="form-group">
-                    <input type="text" id="txtEmail" placeholder="Entidad 1" />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="Paso2" style="display:none">
-        <div class="fieldset-content">
-            <label>Tipo trámite</label>
-            <div class="form-row">
-                <div class="form-group">
-                    <input type="text" id="txtTipoTramite" placeholder="Entidad 1" />
-                </div>
-            </div>
-            <label>Ciudad</label>
-            <div class="form-row">
-                <div class="form-group">
-                    <input type="text" id="txtCiudad" placeholder="Institución 1" />
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="Paso3" style="display:none">
+    
+   
         <div class="form-group" style="margin-left: 40px">
             <table>
                 <tr>
@@ -150,7 +81,7 @@
                             {
                                 <a class="" id="btnLlamada" href="#">
                                     <input type="image" src=@Model[i].Imagen name="image" alt="Llamar"
-                                           class="imgRedondaDisponible" onclick="LlamarUsuario('@Model[i].Nombre')" /><br />
+                                           class="imgRedondaDisponible" onclick="LlamarUsuario()" /><br />
                                 </a>
 
                                 <div class="info">
@@ -203,7 +134,7 @@
             </div>
         </footer>
     </div>
-</div>
+
 
 
 @section scripts{
@@ -233,21 +164,21 @@
 
         }
 
-        function LlamarUsuario(nom) {
+        function LlamarUsuario() {
             $("#loaderDiv").show();
-            ap = "";
-            tel = "";
-            cor = "";
+            //ap = "";
+            //tel = "";
+            //cor = "";
             $.ajax({
 
 
                 type: 'GET',
                 url: '@Url.Action("InicarVideoLlamada", "Home")',
                 data: {
-                    'nombre': nom,
-                    'apellido': ap,
-                    'telefono': tel,
-                    'email': cor
+                    //'nombre': nom,
+                    //'apellido': ap,
+                    //'telefono': tel,
+                    //'email': cor
                 },
                 dataType: "json",
                 success: function (response) {
