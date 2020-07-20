@@ -69,9 +69,9 @@ namespace ApiUsersWebMVC.Controllers
         }
         public JsonResult InicarVideoLlamada()
         {
+
             string responseFromServer;
-            WebRequest request2 = WebRequest.Create("https://video3.apifycloud.com/api/session_request.php?name=" + nom + "&duration=60&key=ad967e8e-73f4-11ea-9ba4-d3a8a6bb4ea4&type=user&lastname=" + ape + "&phone=" + tel + "&email=" + cor + "&session_type=video");
-            
+            WebRequest request2 = WebRequest.Create("https://client3.whatchmenow.com/api/session_request.php?name=" + nom + "&duration=60&key=ad967e8e-73f4-11ea-9ba4-d3a8a6bb4ea4&type=user&lastname=" + ape + "&phone=" + tel + "&email=" + cor + "&session_type=video");
             // If required by the server, set the credentials.  
             request2.Credentials = CredentialCache.DefaultCredentials;
             // Get the response.  
