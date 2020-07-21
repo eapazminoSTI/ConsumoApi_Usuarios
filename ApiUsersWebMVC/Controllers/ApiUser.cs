@@ -8,7 +8,7 @@ using PureCloudPlatform.Client.V2.Client;
 using PureCloudPlatform.Client.V2.Extensions;
 using PureCloudPlatform.Client.V2.Model;
 using ApiUsersWebMVC.Models;
-using PurecloudClassLibrary;
+
 
 namespace ApiUsersWebMVC.Controllers
 {
@@ -29,6 +29,7 @@ namespace ApiUsersWebMVC.Controllers
             List<UsuariosActivos> listaUsuarios = new List<UsuariosActivos>();
             List<UsuariosActivos> listaUsuariosNoDisponible = new List<UsuariosActivos>();
             List<UsuariosActivos> listaUsuariosBusqueda = new List<UsuariosActivos>();
+            List<UsuariosActivos> listaUsuariosOcupados = new List<UsuariosActivos>();
             List<UsuariosActivos> listaTotal = new List<UsuariosActivos>();
 
             //v2.users.86e675ca-0f18-444f-bf37-2a78511133cf.presence
@@ -36,13 +37,13 @@ namespace ApiUsersWebMVC.Controllers
             //SubscriberResponse suscriptions = new SubscriberResponse();
             SubscriptionOverviewUsage subscriptionOverviewUsage = new SubscriptionOverviewUsage();
 
-            
+
 
             List<String> expand = new List<String>();
             expand.Add("presence");
             expand.Add("routingStatus");
 
-            if(nombre == "")
+            if (nombre == "")
             {
                 int page = 0;
                 switch (filtro)
@@ -52,7 +53,7 @@ namespace ApiUsersWebMVC.Controllers
                         do
                         {
                             page++;
-                            userList = usersApi.GetUsers(30, page, null, null, null, null, null);
+                            userList = usersApi.GetUsers(30, page, null, null, null, null, "active");
                             foreach (var user in userList.Entities)
                             {
                                 var usuarioActivo = usersApi.GetUser(user.Id, expand, "active");
@@ -67,18 +68,35 @@ namespace ApiUsersWebMVC.Controllers
                                     urlImagen = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
                                 }
-                                if (usuarioActivo.Presence.PresenceDefinition.SystemPresence == "On Queue" && (usuarioActivo.RoutingStatus.Status.ToString() == "Idle" || usuarioActivo.RoutingStatus.Status.ToString() == "Interacting"))
+                                if (usuarioActivo.Presence.PresenceDefinition.SystemPresence == "On Queue")
                                 {
-                                    listaUsuarios.Add(new UsuariosActivos
+                                    if (usuarioActivo.RoutingStatus.Status.ToString() == "Idle")
                                     {
-                                        Id = usuarioActivo.Id,
-                                        Nombre = usuarioActivo.Name,
-                                        Correo = usuarioActivo.Email,
-                                        Estado = usuarioActivo.RoutingStatus.Status.ToString(),
-                                        Especialidad = usuarioActivo.Department,
-                                        Imagen = urlImagen,
-                                        EstadoActual = usuarioActivo.Presence.PresenceDefinition.SystemPresence
-                                    });
+                                        listaUsuarios.Add(new UsuariosActivos
+                                        {
+                                            Id = usuarioActivo.Id,
+                                            Nombre = usuarioActivo.Name,
+                                            Correo = usuarioActivo.Email,
+                                            Estado = usuarioActivo.RoutingStatus.Status.ToString(),
+                                            Especialidad = usuarioActivo.Department,
+                                            Imagen = urlImagen,
+                                            EstadoActual = usuarioActivo.Presence.PresenceDefinition.SystemPresence
+                                        });
+                                    }
+                                    else
+                                    {
+                                        listaUsuariosOcupados.Add(new UsuariosActivos
+                                        {
+                                            Id = usuarioActivo.Id,
+                                            Nombre = usuarioActivo.Name,
+                                            Correo = usuarioActivo.Email,
+                                            Estado = usuarioActivo.RoutingStatus.Status.ToString(),
+                                            Especialidad = usuarioActivo.Department,
+                                            Imagen = urlImagen,
+                                            EstadoActual = usuarioActivo.Presence.PresenceDefinition.SystemPresence
+                                        });
+                                    }
+
                                 }
                                 else
                                 {
@@ -98,14 +116,15 @@ namespace ApiUsersWebMVC.Controllers
 
                         } while (userList.Entities.Count() != 0);
 
-                        listaTotal = listaUsuarios.Union(listaUsuariosNoDisponible).ToList();
+                        listaTotal = listaUsuarios.Union(listaUsuariosOcupados).ToList();
+                        listaTotal = listaTotal.Union(listaUsuariosNoDisponible).ToList();
                         break;
                     case "userDispo":
                         page = 0;
                         do
                         {
                             page++;
-                            userList = usersApi.GetUsers(30, page, null, null, null, null, null);
+                            userList = usersApi.GetUsers(30, page, null, null, null, null, "active");
                             foreach (var user in userList.Entities)
                             {
                                 var usuarioActivo = usersApi.GetUser(user.Id, expand, "active");
@@ -120,18 +139,35 @@ namespace ApiUsersWebMVC.Controllers
                                     urlImagen = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
                                 }
-                                if (usuarioActivo.Presence.PresenceDefinition.SystemPresence == "On Queue" && (usuarioActivo.RoutingStatus.Status.ToString() == "Idle" || usuarioActivo.RoutingStatus.Status.ToString() == "Interacting"))
+                                if (usuarioActivo.Presence.PresenceDefinition.SystemPresence == "On Queue")
                                 {
-                                    listaUsuarios.Add(new UsuariosActivos
+                                    if (usuarioActivo.RoutingStatus.Status.ToString() == "Idle")
                                     {
-                                        Id = usuarioActivo.Id,
-                                        Nombre = usuarioActivo.Name,
-                                        Correo = usuarioActivo.Email,
-                                        Estado = usuarioActivo.RoutingStatus.Status.ToString(),
-                                        Especialidad = usuarioActivo.Department,
-                                        Imagen = urlImagen,
-                                        EstadoActual = usuarioActivo.Presence.PresenceDefinition.SystemPresence
-                                    });
+                                        listaUsuarios.Add(new UsuariosActivos
+                                        {
+                                            Id = usuarioActivo.Id,
+                                            Nombre = usuarioActivo.Name,
+                                            Correo = usuarioActivo.Email,
+                                            Estado = usuarioActivo.RoutingStatus.Status.ToString(),
+                                            Especialidad = usuarioActivo.Department,
+                                            Imagen = urlImagen,
+                                            EstadoActual = usuarioActivo.Presence.PresenceDefinition.SystemPresence
+                                        });
+                                    }
+                                    else
+                                    {
+                                        listaUsuariosOcupados.Add(new UsuariosActivos
+                                        {
+                                            Id = usuarioActivo.Id,
+                                            Nombre = usuarioActivo.Name,
+                                            Correo = usuarioActivo.Email,
+                                            Estado = usuarioActivo.RoutingStatus.Status.ToString(),
+                                            Especialidad = usuarioActivo.Department,
+                                            Imagen = urlImagen,
+                                            EstadoActual = usuarioActivo.Presence.PresenceDefinition.SystemPresence
+                                        });
+                                    }
+
                                 }
 
 
@@ -139,7 +175,7 @@ namespace ApiUsersWebMVC.Controllers
 
                         } while (userList.Entities.Count() != 0);
 
-                        listaTotal = listaUsuarios.ToList();
+                        listaTotal = listaUsuarios.Union(listaUsuariosOcupados).ToList();
                         break;
                     case "userNoDispo":
                         page = 0;
@@ -194,7 +230,7 @@ namespace ApiUsersWebMVC.Controllers
                 do
                 {
                     page++;
-                    userList = usersApi.GetUsers(30, page, null, null, null, null, null);
+                    userList = usersApi.GetUsers(30, page, null, null, null, null, "active");
                     foreach (var user in userList.Entities)
                     {
                         var usuarioActivo = usersApi.GetUser(user.Id, expand, "active");
@@ -204,7 +240,7 @@ namespace ApiUsersWebMVC.Controllers
                         string NombreAPI = usuarioActivo.Name.ToLower();
                         string NombreBusqueda = nombre.ToLower();
 
-                        if(NombreAPI.Contains(NombreBusqueda))
+                        if (NombreAPI.Contains(NombreBusqueda))
                         {
 
                             if (usuarioActivo.Images != null)
@@ -217,7 +253,7 @@ namespace ApiUsersWebMVC.Controllers
                                 urlImagen = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
                             }
-                            
+
                             listaUsuariosBusqueda.Add(new UsuariosActivos
                             {
                                 Id = usuarioActivo.Id,
@@ -228,7 +264,7 @@ namespace ApiUsersWebMVC.Controllers
                                 Imagen = urlImagen,
                                 EstadoActual = usuarioActivo.Presence.PresenceDefinition.SystemPresence
                             });
-                            
+
                         }
 
                     }

@@ -80,6 +80,13 @@ textarea {
     margin-left: 116px;
 }
 
+.imgRedondaEnCola {
+    width: 84px;
+    height: 84px;
+    border-radius: 160px;
+    border: 5px solid orange;
+    margin-left: 116px;
+}
 .imgRedondaNoDisponible {
     width: 84px;
     height: 84px;

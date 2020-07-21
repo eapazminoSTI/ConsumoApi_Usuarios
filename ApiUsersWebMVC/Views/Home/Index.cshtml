@@ -21,67 +21,69 @@
 
 
 <div class="container">
-    
-   
-        <div class="form-group" style="margin-left: 40px">
-            <table>
-                <tr>
-                    <td>
-                        <div class="filtro">
-                            <label style="margin-bottom: 5px">Filtrar por: @Respuesta</label>
 
-                            <select class="form-control" style="margin-bottom: 10px; text-align:center;" name="filtro" id="filtro">
-                                <option>----------</option>
-                                <option value="todos">Todos</option>
-                                <option value="userDispo">Usuarios Disponibles</option>
-                                <option value="userNoDispo">UsuariosNoDisponibles</option>
-                            </select>
 
-                            <input style="margin-bottom: 10px" type="button" value="Filtrar" class=" btn btn-success" onclick="filtrar()" />
+    <div class="form-group" style="margin-left: 40px">
+        <table>
+            <tr>
+                <td>
+                    <div class="filtro">
+                        <label style="margin-bottom: 5px">Filtrar por: @Respuesta</label>
 
-                        </div>
-                    </td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <select class="form-control" style="margin-bottom: 10px; text-align:center;" name="filtro" id="filtro">
+                            <option>----------</option>
+                            <option value="todos">Todos</option>
+                            <option value="userDispo">Usuarios Disponibles</option>
+                            <option value="userNoDispo">UsuariosNoDisponibles</option>
+                        </select>
 
-                    <td>
-                        <div class="busqueda">
-                            <label style="margin-bottom: 5px">Busqueda por Nombre:</label>
+                        <input style="margin-bottom: 10px" type="button" value="Filtrar" class=" btn btn-success" onclick="filtrar()" />
 
-                            <span class="">
-                                <input type="text" id="txtNombreBusqueda" name="txtNombreBusqueda" class="form-row" placeholder="Ingrese el nombre">
-                                <button type="button" class="btn btn-effect-ripple btn-primary" onclick="busqueda()"><i class="fa fa-search"></i></button>
-                            </span>
-                        </div>
-                    </td>
-                </tr>
+                    </div>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 
-            </table>
+                <td>
+                    <div class="busqueda">
+                        <label style="margin-bottom: 5px">Busqueda por Nombre:</label>
 
-        </div>
+                        <span class="">
+                            <input type="text" id="txtNombreBusqueda" name="txtNombreBusqueda" class="form-row" placeholder="Ingrese el nombre">
+                            <button type="button" class="btn btn-effect-ripple btn-primary" onclick="busqueda()"><i class="fa fa-search"></i></button>
+                        </span>
+                    </div>
+                </td>
+            </tr>
 
-        <div style="text-align:center;display:none;margin-bottom:30px;" id="loaderDiv">
-            <h4>Realizando Videollamada...</h4>
-            <h6>Pronto un asesor lo atenderá, espere por favor</h6>
-            <img src="~/Images/ajax-loader.gif" />
-        </div>
+        </table>
 
-        @for (int i = 0; i < Model.Count; i++)
-        {
-            <div class="col-sm-4">
-                <div class="panel" style="margin-bottom: 20px">
-                    <div class="panel-body p-t-10">
-                        <div class="media-main">
+    </div>
 
-                            @if (@Model[i].EstadoActual == "On Queue" && (@Model[i].Estado == "Idle" || @Model[i].Estado == "Interacting"))
+    <div style="text-align:center;display:none;margin-bottom:30px;" id="loaderDiv">
+        <h4>Realizando Videollamada...</h4>
+        <h6>Pronto un asesor lo atenderá, espere por favor</h6>
+        <img src="~/Images/ajax-loader.gif" />
+    </div>
+
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="col-sm-4">
+            <div class="panel" style="margin-bottom: 20px">
+                <div class="panel-body p-t-10">
+                    <div class="media-main">
+
+                        @if (@Model[i].EstadoActual == "On Queue")
+                        {
+                            if (@Model[i].Estado == "Idle")
                             {
                                 <a class="" id="btnLlamada" href="#">
                                     <input type="image" src=@Model[i].Imagen name="image" alt="Llamar"
-                                           class="imgRedondaDisponible" onclick="LlamarUsuario()" /><br />
+                                           class="imgRedondaDisponible" onclick="LlamarUsuario('@Model[i].Id')" /><br />
                                 </a>
 
                                 <div class="info">
@@ -98,10 +100,10 @@
                             }
                             else
                             {
-
-                                <input type="image" src=@Model[i].Imagen name="image" alt="Llamar"
-                                       class="imgRedondaNoDisponible" onclick="AlertaNoLLamable()" /><br />
-
+                                <a class="" id="btnLlamada" href="#">
+                                    <input type="image" src=@Model[i].Imagen name="image" alt="Llamar"
+                                           class="imgRedondaEnCola" onclick="AlertaOcupado()" /><br />
+                                </a>
 
                                 <div class="info">
                                     <h4>@Model[i].Nombre</h4>
@@ -116,24 +118,46 @@
                                 </div>
                             }
 
+                        }
+                        else
+                        {
 
-                        </div>
+                            <input type="image" src=@Model[i].Imagen name="image" alt="Llamar"
+                                   class="imgRedondaNoDisponible" onclick="AlertaNoLLamable()" /><br />
+
+
+                            <div class="info">
+                                <h4>@Model[i].Nombre</h4>
+                                <p class="text-muted">@Model[i].Correo</p>
+                                <p class="text-muted">@Model[i].Especialidad</p>
+
+
+                                <div id="estadoUsuario">
+                                    <p class="text-muted">@Model[i].Estado</p>
+                                    <p class="text-muted">@Model[i].EstadoActual</p>
+                                </div>
+                            </div>
+                        }
+
+
                     </div>
                 </div>
             </div>
-        }
+        </div>
+    }
 
-        <footer>
-            <div id="container" style="margin-left: 20px">
-                <p></p>
-                <p></p>
-                <div class="pagination" style="margin-left: 400px">
-                    Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
-                    of @Model.PageCount   @Html.PagedListPager(Model, page => Url.Action("Index", new { page, @filtrar = filtro }))
-                </div>
+    <footer>
+        <div id="container" style="margin-left: 20px">
+            <p></p>
+            <p></p>
+            <div class="pagination" style="margin-left: 400px">
+                Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)
+                of @Model.PageCount   @Html.PagedListPager(Model, page => Url.Action("Index", new { page, @filtrar = filtro }))
             </div>
-        </footer>
-    </div>
+        </div>
+    </footer>
+</div>
+
 
 
 
@@ -146,9 +170,9 @@
 
 
 
-        $("#btnLlamada").on('click', function () {
-            LlamarUsuario();
-        });
+        //$("#btnLlamada").on('click', function () {
+        //    LlamarUsuario();
+        //});
 
         function filtrar() {
 
@@ -164,7 +188,7 @@
 
         }
 
-        function LlamarUsuario() {
+        function LlamarUsuario(id_user) {
             $("#loaderDiv").show();
             //ap = "";
             //tel = "";
@@ -175,6 +199,7 @@
                 type: 'GET',
                 url: '@Url.Action("InicarVideoLlamada", "Home")',
                 data: {
+                    'nombre': id_user
                     //'nombre': nom,
                     //'apellido': ap,
                     //'telefono': tel,
@@ -189,9 +214,14 @@
             });
         }
 
+        function AlertaOcupado() {
+            alert("El Agente se encuentra ocupado, intente mas tarde");
+            return;
+        }
 
         function AlertaNoLLamable() {
             alert("El Agente no se encuentra disponible");
+            return;
         }
 
 
