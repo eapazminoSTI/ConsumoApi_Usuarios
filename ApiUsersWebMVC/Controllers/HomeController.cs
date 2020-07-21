@@ -32,7 +32,6 @@ namespace ApiUsersWebMVC.Controllers
         {
             public string status { get; set; }
             public string url { get; set; }
-
         }
         
         public ActionResult Index(int? page, string filtrar, string nombre)
@@ -85,8 +84,9 @@ namespace ApiUsersWebMVC.Controllers
             expand.Add("presence");
             expand.Add("routingStatus");
 
+
             var usuarioActivo = usersApi.GetUser(nombre, expand, "active");
-            if ((usuarioActivo.Presence.PresenceDefinition.SystemPresence == "On Queue")&& (usuarioActivo.RoutingStatus.Status.ToString() == "Idle"))
+            if ((usuarioActivo.Presence.PresenceDefinition.SystemPresence == "On Queue")&& (usuarioActivo.RoutingStatus.Status.ToString() == "Idle")){
             {
             string responseFromServer;
                 WebRequest request2 = WebRequest.Create("https://video3.apifycloud.com/api/session_request.php?name=" + nom + "&duration=60&key=ad967e8e-73f4-11ea-9ba4-d3a8a6bb4ea4&type=user&lastname=" + ape + "&phone=" + tel + "&email=" + cor + "&session_type=video");
