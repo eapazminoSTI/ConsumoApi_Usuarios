@@ -9,6 +9,15 @@ using ApiUsersWebMVC.Controllers;
 using ApiUsersWebMVC.Models;
 using Newtonsoft.Json;
 using PagedList;
+using PureCloudPlatform.Client.V2.Api;
+
+using System.Text;
+using System.Threading.Tasks;
+
+using PureCloudPlatform.Client.V2.Client;
+using PureCloudPlatform.Client.V2.Extensions;
+using PureCloudPlatform.Client.V2.Model;
+
 
 namespace ApiUsersWebMVC.Controllers
 {
@@ -67,34 +76,48 @@ namespace ApiUsersWebMVC.Controllers
             tel = telefono;
             cor = email;
         }
-        public JsonResult InicarVideoLlamada()
+        public JsonResult InicarVideoLlamada(string nombre)
         {
-            string responseFromServer;
-            //WebRequest request2 = WebRequest.Create("https://client3.whatchmenow.com/api/session_request.php?name=" + nom + "&duration=60&key=ad967e8e-73f4-11ea-9ba4-d3a8a6bb4ea4&type=user&lastname=" + ape + "&phone=" + tel + "&email=" + cor + "&session_type=video");
-            WebRequest request2 = WebRequest.Create("https://video3.apifycloud.com/api/session_request.php?name=" + nom + "&duration=60&key=ad967e8e-73f4-11ea-9ba4-d3a8a6bb4ea4&type=user&lastname=" + ape + "&phone=" + tel + "&email=" + cor + "&session_type=video");
+            UsersApi usersApi = new UsersApi();
+            //UserEntityListing userList = null;
+            List<String> expand = new List<String>();
+            expand.Add("presence");
+            expand.Add("routingStatus");
 
-            // If required by the server, set the credentials.  
-            request2.Credentials = CredentialCache.DefaultCredentials;
-            // Get the response.  
-            WebResponse response = request2.GetResponse();
-            // Display the status.  
-            Console.WriteLine(((HttpWebResponse)response).StatusDescription);
-            // Get the stream containing content returned by the server. 
-            // The using block ensures the stream is automatically closed. 
-            using (Stream dataStream = response.GetResponseStream())
+
+            var usuarioActivo = usersApi.GetUser(nombre, expand, "active");
+            if ((usuarioActivo.Presence.PresenceDefinition.SystemPresence == "On Queue")&& (usuarioActivo.RoutingStatus.Status.ToString() == "Idle")){
             {
-                // Open the stream using a StreamReader for easy access.  
-                StreamReader reader = new StreamReader(dataStream);
-                // Read the content.  
-                responseFromServer = reader.ReadToEnd();
-                // Display the content.  
+            string responseFromServer;
+                WebRequest request2 = WebRequest.Create("https://video3.apifycloud.com/api/session_request.php?name=" + nom + "&duration=60&key=ad967e8e-73f4-11ea-9ba4-d3a8a6bb4ea4&type=user&lastname=" + ape + "&phone=" + tel + "&email=" + cor + "&session_type=video");
+                // If required by the server, set the credentials.  
+                request2.Credentials = CredentialCache.DefaultCredentials;
+                // Get the response.  
+                WebResponse response = request2.GetResponse();
+                // Display the status.  
+                Console.WriteLine(((HttpWebResponse)response).StatusDescription);
+                // Get the stream containing content returned by the server. 
+                // The using block ensures the stream is automatically closed. 
+                using (Stream dataStream = response.GetResponseStream())
+                {
+                    // Open the stream using a StreamReader for easy access.  
+                    StreamReader reader = new StreamReader(dataStream);
+                    // Read the content.  
+                    responseFromServer = reader.ReadToEnd();
+                    // Display the content.  
 
-                response.Close();
+                    response.Close();
+                }
+
+                var res = JsonConvert.DeserializeObject<Respuesta>(responseFromServer);
+                return Json(res.url, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("AGENTE FUERA DE LÍNEA");
             }
 
-            var res = JsonConvert.DeserializeObject<Respuesta>(responseFromServer);
-            return Json(res.url, JsonRequestBehavior.AllowGet);
         }
 
-    }
+        }
 }
