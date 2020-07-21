@@ -86,9 +86,9 @@ namespace ApiUsersWebMVC.Controllers
 
 
             var usuarioActivo = usersApi.GetUser(nombre, expand, "active");
-            if ((usuarioActivo.Presence.PresenceDefinition.SystemPresence == "On Queue")&& (usuarioActivo.RoutingStatus.Status.ToString() == "Idle")){
+            if ((usuarioActivo.Presence.PresenceDefinition.SystemPresence == "On Queue")&& (usuarioActivo.RoutingStatus.Status.ToString() == "Idle"))
             {
-            string responseFromServer;
+                string responseFromServer;
                 WebRequest request2 = WebRequest.Create("https://video3.apifycloud.com/api/session_request.php?name=" + nom + "&duration=60&key=ad967e8e-73f4-11ea-9ba4-d3a8a6bb4ea4&type=user&lastname=" + ape + "&phone=" + tel + "&email=" + cor + "&session_type=video");
                 // If required by the server, set the credentials.  
                 request2.Credentials = CredentialCache.DefaultCredentials;
@@ -110,14 +110,17 @@ namespace ApiUsersWebMVC.Controllers
                 }
 
                 var res = JsonConvert.DeserializeObject<Respuesta>(responseFromServer);
+
                 return Json(res.url, JsonRequestBehavior.AllowGet);
+
             }
             else
             {
-                return Json("AGENTE FUERA DE LÍNEA");
+                //return Json("AGENTE FUERA DE LÍNEA");
+                return Json( new { success = false, message = "El Agente se encuentra ocupado, por favor intente más tarde" },  JsonRequestBehavior.AllowGet);
             }
 
         }
 
-        }
+    }
 }

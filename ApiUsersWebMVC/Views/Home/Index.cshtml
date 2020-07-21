@@ -66,7 +66,7 @@
 
     <div style="text-align:center;display:none;margin-bottom:30px;" id="loaderDiv">
         <h4>Realizando Videollamada...</h4>
-        <h6>Pronto un asesor lo atenderá, espere por favor</h6>
+        <h6>Pronto el asesor lo atenderá, espere por favor</h6>
         <img src="~/Images/ajax-loader.gif" />
     </div>
 
@@ -158,34 +158,26 @@
     </footer>
 </div>
 
-
-
-
 @section scripts{
 
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="~/Content/Site.css" rel="stylesheet">
-    <script src="~/Scripts/Wizard.js"></script>
+
     <script type="text/javascript">
-
-
-
-        $("#btnLlamada").on('click', function () {
-            LlamarUsuario();
-        });
-
 
         function filtrar() {
 
              var filtra = $('#filtro').val();
-             window.location.href = '/Home/Index?filtrar=' + filtra
+             //window.location.href = '/Home/Index?filtrar=' + filtra
+            window.location.href = '/ApiUsersWebMVC/Home/Index?filtrar=' + filtra
 
         }
 
         function busqueda() {
 
             var nombre = $('#txtNombreBusqueda').val();
-            window.location.href = '/Home/Index?nombre=' + nombre
+            //window.location.href = '/Home/Index?nombre=' + nombre
+            window.location.href = '/ApiUsersWebMVC/Home/Index?nombre=' + nombre
 
         }
 
@@ -207,11 +199,23 @@
                     //'email': cor
                 },
                 dataType: "json",
-                success: function (response) {
+                success: function (result) {
+                    console.log(result.succes);
 
-                    window.location.href = response;
-                    $("#loaderDiv").hide();
-                },
+                    if (result.success == false) {
+
+                        alert(result.message);
+                        //window.location.href = '/Home/Index' 
+                        window.location.href = '/ApiUsersWebMVC/Home/Index' 
+                    }
+                    else
+                    {
+                        window.location.href = result;
+                        $("#loaderDiv").hide();
+                    }
+                    
+                }
+                
             });
         }
 
